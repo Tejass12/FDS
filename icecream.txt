@@ -1,0 +1,124 @@
+#include <iostream>
+using namespace std;
+
+class CircularQueue {
+private:
+    int front, rear, maxSize;
+    int* orders;
+
+public:
+    CircularQueue(int size) {
+        maxSize = size;
+        front = rear = -1;
+        orders = new int[maxSize];
+    }
+
+    ~CircularQueue() {
+        delete[] orders;
+    }
+
+    bool isEmpty() {
+        return front == -1;
+    }
+
+    bool isFull() {
+        return (front == 0 && rear == maxSize - 1) || (front == rear + 1);
+    }
+
+    void enqueue(int orderNumber) {
+        if (isFull()) {
+            cout << "Queue is full. Cannot accept more orders." << endl;
+            return;
+        }
+
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % maxSize;
+        }
+
+        orders[rear] = orderNumber;
+        cout << "Order " << orderNumber << " placed successfully." << endl;
+    }
+
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is empty. No orders to serve." << endl;
+            return;
+        }
+
+        int servedOrder = orders[front];
+
+        if (front == rear) {
+            // Last order in the queue
+            front = rear = -1;
+        } else {
+            front = (front + 1) % maxSize;
+        }
+
+        cout << "Order " << servedOrder << " served." << endl;
+    }
+
+    void displayOrders() {
+        if (isEmpty()) {
+            cout << "No orders in the queue." << endl;
+            return;
+        }
+
+        cout << "Current orders in the queue: ";
+        int i = front;
+        while (true) {
+            cout << orders[i] << " ";
+
+            if (i == rear) {
+                break;
+            }
+
+            i = (i + 1) % maxSize;
+        }
+
+        cout << endl;
+    }
+};
+
+int main() {
+    int maxOrders;
+    cout << "Enter the maximum number of orders the pizza parlor can accept: ";
+    cin >> maxOrders;
+
+    CircularQueue pizzaQueue(maxOrders);
+
+    int choice;
+    do {
+        cout << "\nPizza Parlor Menu:\n";
+        cout << "1. Place an order\n";
+        cout << "2. Serve an order\n";
+        cout << "3. Display current orders\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                int orderNumber;
+                cout << "Enter the order number: ";
+                cin >> orderNumber;
+                pizzaQueue.enqueue(orderNumber);
+                break;
+            }
+            case 2:
+                pizzaQueue.dequeue();
+                break;
+            case 3:
+                pizzaQueue.displayOrders();
+                break;
+            case 4:
+                cout << "Exiting the pizza parlor simulation.\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
