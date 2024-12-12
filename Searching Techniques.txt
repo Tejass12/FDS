@@ -1,122 +1,137 @@
-def linear_search(a,search):
-    for i in range(len(a)):
-        if(a[i] == search):
-            print("Roll no.",search,"is present at index",i)
-            break
-        else:
-            print("Roll no.",search,"not found in list")
-
-
-def sentinel_search(a,search):
-    a.append(search)
-    i = 0
-    while(a[i] != search):
-        i += 1
-        if(i < (len(a) - 1)):
-            print("Roll no.",search,"is present at index",i)
-        else:
-            print("Roll no.",search,"not found in list")
-
-def binary_search(a,search):
-    start = 0
-    end = len(a) - 1
-    while(start <= end):
-        mid = int((start + end) / 2)
-        if(a[mid] == search):
-            print("Roll no.", search,"is present at index",mid)
-            break
-        elif(search > a[mid]):
-            start = mid+1
-        elif(search < a[mid]):
-            end = mid-1
-        else:
-            print("Roll no.",search,"not found in list")
-
-
-
-def fibonacci_search(a,search):
-    n = len(a)
-    fibn_2 = 0
-    fibn_1 = 1
-    fibn = fibn_1 + fibn_2
-    while(fibn <= n):
-        fibn_2 = fibn_1
-        fibn_1 = fibn
-        fibn = fibn_1 + fibn_2
-
-    offset =- 1
-    while(fibn_1 != 0):
-        i = min((offset + fibn_2), n-1)
-        if(search > a[i]):
-            fibn = fibn_1
-            fibn_1 = fibn_2
-            fibn_2 = fibn-fibn_1
-            offset = i
-        elif(search <a [i]):
-            fibn = fibn_2
-            fibn_1 = fibn_1 - fibn_2
-            fibn_2 = fibn - fibn_1
-        elif(search == a[i]):
-            print("Roll no.", search,"is present at index",i)
-            break
-        else:
-            print("Roll no.", search,"not found in list")
-
-
-flag='y'
-while(flag =='y'):
-    print("1. Sorted List Search")
-    print("2. Unsorted List Search")
-
-    choice=int(input("Enter the Choice:"))
-    if(choice == 1):
-        n = int(input("Enter number of students present : "))
-        a = []
-        for i in range(n):
-            elem = int(input("Enter the roll no. of student:"))      
-
-            if(elem not in a):
-                a.append(elem)
-            else:
-                while(elem in a):
-                    print("Roll no. already present in the list!")
-                    elem=int(input("Enter the roll no. of student again:"))
-                a.append(elem)
-               
-        print("\nThe roll no. of students present: ", a)
-       
-        search = int(input("Enter the roll no. to be searched in list:"))    
-        print("1.Binary Search")
-        print("2.Fibonacci Search")
-       
-        choice1=int(input("Enter the choice:"))
-        if(choice1==1):
-            binary_search(a,search)
-        if(choice1==2):
-            fibonacci_search(a,search)
-    if(choice==2):
-        n = int(input("Enter number of students present : "))
-        a=[]
-     
-        for i in range(n):
-            elem=int(input("Enter the roll no. of student:"))      
-            if(elem not in a):
-                a.append(elem)
-            else:
-                while(elem in a):
-                    print("Roll no. already present in the list!")
-                    elem=int(input("Enter the roll no. of student again:"))
-                a.append(elem)
-     
-        print("\nThe roll no. of students present: ", a)
-     
-        search = int(input("Enter the roll no. to be searched in list:"))    
-        print("1.Linear Search")
-        print("2.Sentinel Search")
-     
-        choice2=int(input("Enter the choice:"))
-        if(choice2==1):
-            linear_search(a,search)
-        if(choice2==2):
-            sentinel_search(a,search)
-    flag=input("Do you want to continue (y/n):")
+def linear_search(a, search):  
+   """Performs a linear search on the list."""  
+   for i in range(len(a)):  
+      if a[i] == search:  
+        return f"Roll no. {search} is present at index {i}"  
+   return f"Roll no. {search} not found in list"  
+  
+def sentinel_search(a, search):  
+   """Performs a sentinel search on the list."""  
+   a.append(search)  
+   for i in range(len(a)):  
+      if a[i] == search:  
+        if i == len(a) - 1:  
+           a.pop()  # Remove the sentinel element  
+           return f"Roll no. {search} not found in list"  
+        else:  
+           a.pop()  # Remove the sentinel element  
+           return f"Roll no. {search} is present at index {i}"  
+  
+def binary_search(a, search):  
+   """Performs a binary search on the list."""  
+   start = 0  
+   end = len(a) - 1  
+   while start <= end:  
+      mid = (start + end) // 2  
+      if a[mid] == search:  
+        return f"Roll no. {search} is present at index {mid}"  
+      elif search < a[mid]:  
+        end = mid - 1  
+      else:  
+        start = mid + 1  
+   return f"Roll no. {search} not found in list"  
+  
+def fibonacci_search(a, search):  
+   """Performs a fibonacci search on the list."""  
+   n = len(a)  
+   fib_n_2 = 0  
+   fib_n_1 = 1  
+   fib_n = fib_n_1 + fib_n_2  
+   while fib_n <= n:  
+      fib_n_2 = fib_n_1  
+      fib_n_1 = fib_n  
+      fib_n = fib_n_1 + fib_n_2  
+  
+   offset = -1  
+   while fib_n_1 != 0:  
+      i = min(offset + fib_n_2, n - 1)  
+      if search > a[i]:  
+        fib_n = fib_n_1  
+        fib_n_1 = fib_n_2  
+        fib_n_2 = fib_n - fib_n_1  
+        offset = i  
+      elif search < a[i]:  
+        fib_n = fib_n_2  
+        fib_n_1 = fib_n_1 - fib_n_2  
+        fib_n_2 = fib_n - fib_n_1  
+      else:  
+        return f"Roll no. {search} is present at index {i}"  
+   return f"Roll no. {search} not found in list"  
+  
+def get_student_roll_numbers(n):  
+   """Gets the roll numbers of students from the user."""  
+   roll_numbers = []  
+   for i in range(n):  
+      while True:  
+        try:  
+           roll_number = int(input(f"Enter the roll no. of student {i + 1}: "))  
+           if roll_number <= 0:  
+              print("Roll number should be a positive integer.")  
+           elif roll_number in roll_numbers:  
+              print("Roll number already present in the list!")  
+           else:  
+              roll_numbers.append(roll_number)  
+              break  
+        except ValueError:  
+           print("Invalid input. Please enter a positive integer.")  
+   return roll_numbers  
+  
+def main():  
+   while True:  
+      print("1. Sorted List Search")  
+      print("2. Unsorted List Search")  
+      choice = input("Enter the Choice: ")  
+      if choice not in ['1', '2']:  
+        print("Invalid choice. Please enter 1 or 2.")  
+        continue  
+  
+      while True:  
+        try:  
+           n = int(input("Enter the number of students present: "))  
+           if n <= 0:  
+              print("Number of students should be a positive integer.")  
+           else:  
+              break  
+        except ValueError:  
+           print("Invalid input. Please enter a positive integer.")  
+  
+      roll_numbers = get_student_roll_numbers(n)  
+      print("\nThe roll no. of students present: ", roll_numbers)  
+  
+      while True:  
+        try:  
+           search = int(input("Enter the roll no. to be searched in list: "))  
+           if search <= 0:  
+              print("Roll number should be a positive integer.")  
+           else:  
+              break  
+        except ValueError:  
+           print("Invalid input. Please enter a positive integer.")  
+  
+      if choice == '1':  
+        print("1. Binary Search")  
+        print("2. Fibonacci Search")  
+        choice1 = input("Enter the choice: ")  
+        if choice1 == '1':  
+           print(binary_search(roll_numbers, search))  
+        elif choice1 == '2':  
+           print(fibonacci_search(roll_numbers, search))  
+        else:  
+           print("Invalid choice. Please enter 1 or 2.")  
+      elif choice == '2':  
+        print("1. Linear Search")  
+        print("2. Sentinel Search")  
+        choice2 = input("Enter the choice: ")  
+        if choice2 == '1':  
+           print(linear_search(roll_numbers, search))  
+        elif choice2 == '2':  
+           print(sentinel_search(roll_numbers, search))  
+        else:  
+           print("Invalid choice. Please enter 1 or 2.")  
+  
+      flag = input("Do you want to continue (y/n): ")  
+      if flag.lower() != 'y':  
+        break  
+  
+if __name__ == "__main__":  
+   main()
